@@ -149,18 +149,37 @@ printf("size of file: %d\n", size);
 	//printf("%s", buffer);//print grid # line
 	
 	int i, j;
+	i = j = 0;
+	while(1){
+		char c = fgetc(fp);
+		if(c == EOF){
+			break;
+		}else if(c == '\n'){
+			//printf("continue\n");
+			j = 0;
+			i++;
+			continue;
+		}else{
+			array[i][j] = c;
+			j++;
+		}
+	}
+/*
 	for(i = 0; i < ROW; i++){
 		for(j = 0; j <= COL; j++){//<= is necessary!
 			char c = fgetc(fp);
-			if(c == '\n'){
+	printf("%c", c);
+			if(c == '\n' || c == ' '){
+				printf("\ncontinue\n");
 				continue;
 			}else{
+	//printf("i=%d, j=%d",i,j);
 				array[i][j] = c;
 				//printf("%c\n", c);
 			}
 		}
 	}
-
+*/
 	//print_grid(array);
 
 	char* s0 = rule_0(array, &clauses);
@@ -171,7 +190,7 @@ printf("size of file: %d\n", size);
 //printf("%s",s0);
 
 //WRITE TO FILE 
-	fp2 = fopen("output.txt", "w+");
+	fp2 = fopen("inputfiles/first.in", "w+");
 	char firstLine[15];
 	sprintf(firstLine, "p cnf %d %d\n", variables, clauses);
 	fwrite(firstLine, 1, sizeof(firstLine), fp2);

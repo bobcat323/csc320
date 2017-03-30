@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define ROW 9
 #define COL 9
@@ -35,6 +36,9 @@ void write_grid(FILE* fp2, char array[ROW][COL], int number){
 }
 
 int main(int argc, char* argv[]){
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	double start = tv.tv_usec;
 	FILE* fp;
 	FILE* fp2;
 
@@ -94,15 +98,14 @@ int main(int argc, char* argv[]){
 			array[val2][val1] = digit3;
 		}
 	}
-	print_grid(array);
+	//print_grid(array);
 
-	fp2 = fopen("solved.out", "w+");
+	fp2 = fopen("solved.txt", "w+");
 	char firstLine[15];
 	number++;
 	write_grid(fp2, array, number);
-
-
-
-
+	gettimeofday(&tv, NULL);
+	double duration = tv.tv_usec - start;
+	printf("sat2sud finished in %lf microseconds\n", duration);
 	exit(0);
 }
