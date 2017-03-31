@@ -15,7 +15,7 @@ char* rule_0(char array[ROW][COL], int* clauses){
                 for(j = 1; j < COL + 1; j++){
                         if(array[i-1][j-1] != '0'){
                                 //printf("%d%d  %c 0\n",i, j, array[i - 1][j - 1]);
-                                sprintf(str, "%d%d%c 0\n",j, i, array[i-1][j -1]);
+                                sprintf(str, "%d%d%c 0\n",i, j, array[i-1][j -1]);
                                 strcat(string, str);
                                 (*clauses)++;
                         }
@@ -141,24 +141,27 @@ int main(int argc, char* argv[]){
 		return -1;
 	}
 
-	fgets(buffer, 60, fp);
-	//printf("%s", buffer);//print grid # line
-	
 	int i, j;
 	i = j = 0;
 	while(1){
 		char c = fgetc(fp);
 		if(c == EOF){
-			//printf("reached EOF!\n");
+			printf("reached EOF!\n");
 			break;
-		}else if(c == '\n'){
-			//printf("continue\n");
+		}
+
+		if(j == 9){
 			j = 0;
 			i++;
-			continue;
-		}else{
+			printf("hit end of row, incremented column\n");
+		}
+
+		if(c == '1' || c == '2' || c == '3' ||c == '4'|| c == '5' || c == '6' || c == '7' || c == '8' || c == '9' ){
 			//printf("[%d][%d]:%c\n", i, j, c);
 			array[i][j] = c;
+			j++;
+		}else{
+			array[i][j] = '0';
 			j++;
 		}
 	}

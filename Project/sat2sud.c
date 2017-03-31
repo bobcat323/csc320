@@ -25,14 +25,11 @@ void write_grid(FILE* fp2, char array[ROW][COL], int number){
 
         for(i = 0; i < ROW; i++){
                 for(j = 0; j < COL; j++){
-			//printf("%c", array[i][j]);
 			fputc(array[i][j], fp2);
                 }
-                //printf("\n");
 		fputc('\n', fp2);
 		
         }
-        //printf("\n");
 }
 
 int main(int argc, char* argv[]){
@@ -60,18 +57,6 @@ int main(int argc, char* argv[]){
 	char line[60];
 	fgets(line, 60, fp);//skip first line "SAT"
 
-	/*
-	int i, j;
-	for(i = 0; i < ROW; i++){
-		for(j=0; j < COL; j++){
-			char c  = fgetc(fp);
-			if(c == '\n'){
-				continue;
-			}else{
-				array[i][j] = c;
-	}}}
-*/
-	//parse every string
 	char* token;
 	char buffer[fileSize];
 	fgets(buffer, fileSize, fp);
