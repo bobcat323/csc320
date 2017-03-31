@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define ROW 9
 #define COL 9
@@ -118,10 +119,12 @@ void print_grid(char array[ROW][COL]){
 		}
 		printf("\n");
 	}
-	printf("\n");
+	//printf("\n");
 }
 
 int main(int argc, char* argv[]){
+	clock_t timer;
+	timer = clock();
 	FILE* fp;
 	FILE* fp2;
 
@@ -153,6 +156,7 @@ printf("size of file: %d\n", size);
 	while(1){
 		char c = fgetc(fp);
 		if(c == EOF){
+	printf("reached EOF!\n");
 			break;
 		}else if(c == '\n'){
 			//printf("continue\n");
@@ -160,6 +164,7 @@ printf("size of file: %d\n", size);
 			i++;
 			continue;
 		}else{
+printf("[%d][%d]:%c\n", i, j, c);
 			array[i][j] = c;
 			j++;
 		}
@@ -181,7 +186,7 @@ printf("size of file: %d\n", size);
 	}
 */
 	//print_grid(array);
-
+//printf("[8][8] = %c\n", array[8][7]);
 	char* s0 = rule_0(array, &clauses);
 	char* s1 = rule_1(array, &clauses);
 	char* s2 = rule_2(array, &clauses);
@@ -190,7 +195,7 @@ printf("size of file: %d\n", size);
 //printf("%s",s0);
 
 //WRITE TO FILE 
-	fp2 = fopen("inputfiles/first.in", "w+");
+	fp2 = fopen(argv[2], "w+");
 	char firstLine[15];
 	sprintf(firstLine, "p cnf %d %d\n", variables, clauses);
 	fwrite(firstLine, 1, sizeof(firstLine), fp2);
@@ -203,5 +208,7 @@ printf("size of file: %d\n", size);
 	fclose(fp);
 	fclose(fp2);
 
+	timer = (((float)clock() - timer) / 1000000.0F) * 1000;
+	printf("sud2sat took %ld milliseconds\n", timer);
 	exit(0);
 }

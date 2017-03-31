@@ -100,7 +100,7 @@ int main(int argc, char* argv[]){
 	}
 	//print_grid(array);
 
-	fp2 = fopen("solved.txt", "w+");
+	fp2 = fopen(argv[2], "w+");
 	char firstLine[15];
 	number++;
 	write_grid(fp2, array, number);
