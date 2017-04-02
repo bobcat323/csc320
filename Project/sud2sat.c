@@ -88,29 +88,59 @@ char* rule_3(char array[ROW][COL], int* clauses){
         }
         return string;
 }
+char* rule_4(char array[ROW][COL], int* clauses){
+	int k, a, b, u, v, w, t;
+	char str[100000];
+    char* string = (char*)malloc(sizeof(char) * 100000);
+	for(k = 1; k <= 9; k++){
+		for(a = 0; a <= 2; a++){
+			for(b = 0; b <= 2; b++){
+				for(u = 1; u <= 3; u++){
+					for(v = 1; v <= 2; v++){
+						for(w = v+1; w <= 3; w++){
+							sprintf(str, "-%d%d%d -%d%d%d 0\n", (3*a + u), (3*b + v), k, (3*a + u),(3*b + w), k);
+							strcat(string, str);
+							(*clauses)++;
+					}}}}}}
+	
+	for(k = 1; k <= 9; k++){
+		for(a = 0; a <= 2; a++){
+			for(b = 0; b <= 2; b++){
+				for(u = 1; u <= 2; u++){
+					for(v = 1; v <= 3; v++){
+						for(w = u+1; w <= 3; w++){
+							for(t = 1; t <= 3; t++){
+							sprintf(str, "-%d%d%d -%d%d%d 0\n", (3*a + u), (3*b + v), k, (3*a + w),(3*b + t), k);
+							strcat(string, str);
+							(*clauses)++;
+}}}}}}}
+}
 
+/*
 char* rule_4(char array[ROW][COL], int* clauses){
 	int a, b, i, j, k, l, m;
 	char str[100000];
         char* string = (char*)malloc(sizeof(char) * 100000);
-	for(a = 0; a < 9; a+=3){
-	for(b = 0; b < 9; b+=3){
+	for(a = 0; a < 9; a+=3){//a+=3
+	for(b = 0; b < 9; b+=3){//b+=3
 	for(i = 1; i < 4; i++){
 	for(j = 1; j < 4; j++){
 	for(k = 1; k < 10; k++){
-	for(l = j; l < 4; l++){
-	for(m = i; m < 4; m++){
-		if(m == i && l== j){
+	for(l = 1; l < 4; l++){//l = j
+	for(m = 1; m < 4; m++){//m = i
+		
+		if((m == i && l== j) || (l < j && m == i)){
 			continue;
 		}
-		//printf("-%d%d%d -%d%d%d 0\n", i + b, j + a, k, m + b, l + a, k);
+		printf("a=%d,b=%d,i=%d,j=%d,k=%d,l=%d,m=%d,\t",a,b,i,j,k,l,m);
+		printf("-%d%d%d -%d%d%d 0\n", i + b, j + a, k, m + b, l + a, k);
 		sprintf(str, "-%d%d%d -%d%d%d 0\n", i + b, j + a, k, m + b, l + a, k);
 		strcat(string, str);
 		(*clauses)++;	
 	}}}}}}}
 	return string;
 }
-
+*/
 void print_grid(char array[ROW][COL]){
 	int i, j;
 	for(i = 0; i < ROW; i++){
@@ -169,9 +199,14 @@ int main(int argc, char* argv[]){
 	char* s1 = rule_1(array, &clauses);
 	char* s2 = rule_2(array, &clauses);
 	char* s3 = rule_3(array, &clauses);
-	char* s4 = rule_4(array, &clauses);
 
+	char* s4 = rule_4(array, &clauses);
+//printf("%s\n", s4);
 //WRITE TO FILE 
+
+	char comment[15];
+	sprintf(comment, "c start of rule 4\n");
+
 	fp2 = fopen(argv[2], "w+");
 	char firstLine[15];
 	sprintf(firstLine, "p cnf %d %d\n", variables, clauses);
@@ -179,6 +214,7 @@ int main(int argc, char* argv[]){
 	fwrite(s0, 1, strlen(s0), fp2);
 	fwrite(s1, 1, strlen(s1), fp2);
 	fwrite(s2, 1, strlen(s2), fp2);
+	//fwrite(comment, 1, strlen(comment), fp2);
 	fwrite(s3, 1, strlen(s3), fp2);
 	fwrite(s4, 1, strlen(s4), fp2);
 
