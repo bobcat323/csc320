@@ -114,6 +114,7 @@ char* rule_4(char array[ROW][COL], int* clauses){
 							strcat(string, str);
 							(*clauses)++;
 }}}}}}}
+return string;
 }
 
 /*
